@@ -3,10 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { entities } from './model/entity/entities.js';
 import { KafkaModule } from '../messaging/kafka.module.js';
 import { KeycloakModule } from '../security/keycloak/keycloak.module.js';
-import { FragebogenResolver } from './resolver/fragebogen.resolver.js';
-import { KategorieResolver } from './resolver/kategorie.resolver.js';
-import { FragebogenService } from './service/fragebogen.service.js';
-import { KategorieService } from './service/kategorie.service.js';
+import { QueryResolver } from './resolver/query.resolver.js';
+import { MutationResolver } from './resolver/mutation.resolver.js';
+import { ReadService } from './service/read.service.js';
+import { WriteService } from './service/write.service.js';
 
 @Module({
     imports: [
@@ -15,13 +15,8 @@ import { KategorieService } from './service/kategorie.service.js';
         KeycloakModule,
     ],
     // Provider sind z.B. Service-Klassen fuer DI
-    providers: [
-        FragebogenResolver,
-        KategorieResolver,
-        FragebogenService,
-        KategorieService,
-    ],
+    providers: [QueryResolver, MutationResolver, ReadService, WriteService],
     // Export der Provider fuer DI in anderen Modulen
-    exports: [FragebogenService, KategorieService],
+    exports: [ReadService, WriteService],
 })
 export class QuestionnaireModule {}

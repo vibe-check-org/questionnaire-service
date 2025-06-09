@@ -31,13 +31,24 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Query {
-  findeAlleFrageboegen: [Fragebogen!]!
-  findeAlleKategorien: [Kategorie!]!
+  getAllFrageboegen: [Fragebogen!]!
+  getFragebogenById(id: ID!): Fragebogen
+  getAllKategorien: [Kategorie!]!
+  getKategorieById(id: ID!): Kategorie
+  getFragebogenByCategory(kategorieId: ID!): [Fragebogen!]!
+  getFragenByFragebogen(fragebogenId: ID!): [Frage!]!
 }
 
 type Mutation {
   createFragebogen(input: CreateFragebogenInput!): Fragebogen!
+  updateFragebogen(id: ID!, input: UpdateFragebogenInput!): Fragebogen!
+  deleteFragebogen(id: ID!): Boolean!
+  createFrage(input: CreateFrageInput!): Frage!
+  updateFrage(id: ID!, input: UpdateFrageInput!): Frage!
+  deleteFrage(id: ID!): Boolean!
   createKategorie(input: CreateKategorieInput!): Kategorie!
+  updateKategorie(id: ID!, input: UpdateKategorieInput!): Kategorie!
+  deleteKategorie(id: ID!): Boolean!
 }
 
 input CreateFragebogenInput {
@@ -53,7 +64,23 @@ input CreateFrageInput {
   kategorieId: String!
 }
 
+input UpdateFragebogenInput {
+  titel: String
+  aktiv: Boolean
+}
+
+input UpdateFrageInput {
+  text: String
+  typ: String
+  kategorieId: ID
+}
+
 input CreateKategorieInput {
   name: String!
+  beschreibung: String
+}
+
+input UpdateKategorieInput {
+  name: String
   beschreibung: String
 }
