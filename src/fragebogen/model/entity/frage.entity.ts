@@ -1,6 +1,13 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Fragebogen } from './fragebogen.entity.js';
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToOne,
+    JoinColumn,
+} from 'typeorm';
+import type { Fragebogen } from './fragebogen.entity.js';
+import { Fragebogen as FragebogenClass } from './fragebogen.entity.js';
 import { FrageTyp } from './frage.typ.enum.js';
 import { Kategorie } from './kategorie.entity.js';
 
@@ -19,8 +26,10 @@ export class Frage {
     @Field(() => String)
     typ: FrageTyp;
 
-    @ManyToOne(() => Fragebogen, (fragebogen) => fragebogen.fragen)
-    fragebogen: Frage;
+    @ManyToOne(() => FragebogenClass, (fragebogen) => fragebogen.fragen)
+    @JoinColumn({ name: 'fragebogen_id' })
+    @Field(() => FragebogenClass)
+    fragebogen: Fragebogen;
 
     @ManyToOne(() => Kategorie, (kategorie) => kategorie.fragen)
     @Field(() => Kategorie)

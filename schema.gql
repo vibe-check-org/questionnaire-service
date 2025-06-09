@@ -12,6 +12,7 @@ type Frage {
   id: ID!
   text: String!
   typ: String!
+  fragebogen: Fragebogen!
   kategorie: Kategorie!
 }
 
