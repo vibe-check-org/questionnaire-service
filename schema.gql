@@ -1,0 +1,58 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Kategorie {
+  id: ID!
+  name: String!
+  beschreibung: String
+}
+
+type Frage {
+  id: ID!
+  text: String!
+  typ: String!
+  kategorie: Kategorie!
+}
+
+type Fragebogen {
+  id: ID!
+  titel: String!
+  aktiv: Boolean!
+  fragen: [Frage!]!
+  erstelltAm: DateTime!
+  aktualisiertAm: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  findeAlleFrageboegen: [Fragebogen!]!
+  findeAlleKategorien: [Kategorie!]!
+}
+
+type Mutation {
+  createFragebogen(input: CreateFragebogenInput!): Fragebogen!
+  createKategorie(input: CreateKategorieInput!): Kategorie!
+}
+
+input CreateFragebogenInput {
+  titel: String!
+  aktiv: Boolean! = true
+  fragen: [CreateFrageInput!]!
+}
+
+input CreateFrageInput {
+  text: String!
+  typ: String!
+  fragebogenId: String!
+  kategorieId: String!
+}
+
+input CreateKategorieInput {
+  name: String!
+  beschreibung: String
+}
