@@ -17,13 +17,13 @@ export class QueryResolver {
     }
 
     @Query(() => [Fragebogen])
-    @Roles({ roles: ['Admin', 'BEWERBER', 'RECRUITER'] })
+    @Roles({ roles: ['ADMIN', 'BEWERBER', 'RECRUITER'] })
     async getAllFrageboegen(): Promise<Fragebogen[]> {
         return this.#readService.findAllFrageboegen();
     }
 
     @Query(() => Fragebogen, { nullable: true })
-    @Roles({ roles: ['Admin', 'BEWERBER', 'RECRUITER'] })
+    @Roles({ roles: ['ADMIN', 'BEWERBER', 'RECRUITER'] })
     async getFragebogenById(
         @Args('id', { type: () => ID }) id: string,
     ): Promise<Fragebogen | null> {
@@ -31,13 +31,13 @@ export class QueryResolver {
     }
 
     @Query(() => [Kategorie])
-    @Roles({ roles: ['Admin', 'BEWERBER', 'RECRUITER'] })
+    @Roles({ roles: ['ADMIN', 'BEWERBER', 'RECRUITER'] })
     async getAllKategorien(): Promise<Kategorie[]> {
         return this.#readService.findAllKategorien();
     }
 
     @Query(() => Kategorie, { nullable: true })
-    @Roles({ roles: ['Admin', 'BEWERBER', 'RECRUITER'] })
+    @Roles({ roles: ['ADMIN', 'BEWERBER', 'RECRUITER'] })
     async getKategorieById(
         @Args('id', { type: () => ID }) id: string,
     ): Promise<Kategorie | null> {
@@ -45,7 +45,7 @@ export class QueryResolver {
     }
 
     @Query(() => [Fragebogen])
-    @Roles({ roles: ['Admin', 'BEWERBER', 'RECRUITER'] })
+    @Roles({ roles: ['ADMIN', 'BEWERBER', 'RECRUITER'] })
     async getFragebogenByCategory(
         @Args('kategorieId', { type: () => ID }) kategorieId: string,
     ): Promise<Fragebogen[]> {
@@ -53,10 +53,19 @@ export class QueryResolver {
     }
 
     @Query(() => [Frage])
-    @Roles({ roles: ['Admin', 'BEWERBER', 'RECRUITER'] })
+    @Roles({ roles: ['ADMIN', 'BEWERBER', 'RECRUITER'] })
     async getFragenByFragebogen(
         @Args('fragebogenId', { type: () => ID }) fragebogenId: string,
     ): Promise<Frage[]> {
         return this.#readService.getFragenByFragebogen(fragebogenId);
     }
+
+    @Query(() => [Kategorie], { nullable: true })
+    @Roles({ roles: ['ADMIN', 'BEWERBER', 'RECRUITER'] })
+    async getKategorienByFrageIds(
+        @Args('frageIds', { type: () => [ID] }) frageId: string[],
+    ): Promise<Kategorie[] | null> {
+        return this.#readService.findKategorienByFrageIds(frageId);
+    }
+
 }
